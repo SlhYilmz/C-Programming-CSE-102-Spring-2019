@@ -1,0 +1,3 @@
+-output sorusunu sona birakin
+-complete program istenen soruda maini doldurmayin, odevinizdeki gibi fonksiyonlara bolun problemi, main de sadece fonksiyonlariniz olsun. Eger istenirse odevinizdeki gibi loop ve switch case kullanin mainde.
+-Tum problemin cozumununun tamamini kesinlikle mainde yazmaya calismayin, eger cok zor geliyorsa soru, yapacaginiz islemleri ayri ayri fonksiyonlara bolun converttoLowerCase, findWordCount vb. isimli fonksiyonlar gibi.

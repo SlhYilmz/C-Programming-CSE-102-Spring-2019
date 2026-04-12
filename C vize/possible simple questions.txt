@@ -1,0 +1,28 @@
+-write a function that finds and returns the index of given "key" value.
+prototype is like: int findIndex(int *arr, int key);
+
+
+-write a function that prints this triangle with given length:
+prototype is like: void printTriangle(int length);
+
+*****
+ ****
+  ***
+   **
+    *
+
+
+-write a function that adds a value in array. Elements will be shifted so last element is lost.
+
+prototype is like: void addElement(int *arr, int key, int index);
+
+//array is like first: 0 2 5 1 4
+//after inserting 3 to 2. index:
+//array is like: 0 2 5 3 1 
+
+
+//write a function that finds odd and even element count in array
+
+//prototype is like:  void findCount(int *arr, int *oddCount, int *evenCount);
+
+
