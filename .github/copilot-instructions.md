@@ -76,7 +76,7 @@ int32_t foo(uint8_t x)
 
 ### Integer Types
 
-Use fixed-width integers from `<stdint.h>` whenever possible.
+Use fixed-width integers from `<stdint.h>` whenever possible, or otherwise stated in the instructions. Avoid using `int`, `long`, `short`, or `char` for numeric purposes.
 
 | Allowed    | Discouraged |
 |------------|-------------|
@@ -138,8 +138,8 @@ if (x > 0U)
 
 ### Naming Conventions
 
-| Entity         | Convention              | Example              |
-|----------------|-------------------------|----------------------|
+| Entity          | Convention              | Example              |
+|-----------------|-------------------------|----------------------|
 | Functions       | `snake_case`            | `compute_crc()`      |
 | Variables       | `snake_case`            | `byte_count`         |
 | Constants/Macros| `UPPER_SNAKE_CASE`      | `MAX_BUFFER_SIZE`    |
