@@ -1,0 +1,25 @@
+﻿Block ID;Block Name;Block Price;Block Rent;Block Rent with 1 House;Block Rent with 2 House;Block Rent with 3 House;Block House Price;Block Type
+0;Start;0;0;0;0;0;0;start
+1;Esenyurt;16000;800;4000;9000;25000;10000;property
+2;Car Park;0;1500;0;0;0;0;tax
+3;Fortune Card;0;0;0;0;0;0;fortune
+4;Tuzla;16500;850;4250;9500;26000;12000;property
+5;Arnavutköy;17000;875;4500;10000;28000;12000;property
+6;Wait 2 Turn;0;2;0;0;0;0;punish
+7;Çatalca;20000;1000;5000;12000;30000;13000;property
+8;Beykoz;23000;1100;5500;12500;33000;13000;property
+9;Fortune Card;0;0;0;0;0;0;fortune
+10;Car Fix;0;1750;0;0;0;0;tax
+11;Maltepe;30000;1350;7000;15000;40000;15000;property
+12;Bills;0;2000;0;0;0;0;tax
+13;Şişli;33000;1500;8000;16000;42000;16000;property
+14;Oil;0;2250;0;0;0;0;tax
+15;Fortune Card;0;0;0;0;0;0;fortune
+16;Ataşehir;35000;1600;8500;17000;45000;17000;property
+17;Sarıyer;40000;1750;9500;19000;48000;19000;property
+18;Wait 1 Turn;0;1;0;0;0;0;punish
+19;Kadıköy;43000;1900;11000;21500;55000;23000;property
+20;Beşiktaş;60000;2500;15000;28000;60000;30000;property
+21;Fortune Card;0;0;0;0;0;0;fortune
+22;Vocation;0;5000;0;0;0;0;tax
+23;Bebek;70000;3500;20000;35500;65000;35000;property
