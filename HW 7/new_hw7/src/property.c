@@ -17,12 +17,13 @@
 #define INVALID_SCAN_RESULT (-1) /**< Sentinel assigned when scanf fails.            */
 
 /* -----------------------------------------------------------------------
- * Internal helper – find a block in the board by its id.
+ * Internal helper - find a block in the board by its id.
  * Returns NULL when not found.
  * --------------------------------------------------------------------- */
-static struct block* find_block(struct block board[BOARD_SIZE], int id)
+static struct block* find_block(struct block board[BOARD_SIZE],
+                                int id)
 {
-    int32_t       i;
+    int32_t i;
     struct block* result = NULL;
 
     for (i = 0; i < (int32_t)BOARD_SIZE; i++)
@@ -37,13 +38,14 @@ static struct block* find_block(struct block board[BOARD_SIZE], int id)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – add a block id to the player's owned list.
+ * Internal helper - add a block id to the player's owned list.
  * Returns ADD_OWNED_OK on success, ADD_OWNED_FAIL if the list is full.
  * --------------------------------------------------------------------- */
-static int add_owned(struct player* p, int block_id)
+static int add_owned(struct player* p,
+                     int block_id)
 {
     int32_t i;
-    int     result = ADD_OWNED_FAIL;
+    int result = ADD_OWNED_FAIL;
 
     for (i = 0; i < (int32_t)MAX_OWNED_BLOCKS; i++)
     {
@@ -59,10 +61,11 @@ static int add_owned(struct player* p, int block_id)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – remove a block id from the player's owned list.
+ * Internal helper - remove a block id from the player's owned list.
  * Shifts nothing; just sets the matching slot back to NO_BLOCK.
  * --------------------------------------------------------------------- */
-static void remove_owned(struct player* p, int block_id)
+static void remove_owned(struct player* p,
+                         int block_id)
 {
     int32_t i;
 
@@ -76,13 +79,14 @@ static void remove_owned(struct player* p, int block_id)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – try to build houses on a property the player just
+ * Internal helper - try to build houses on a property the player just
  * bought (or landed on). Loops until the player declines, runs out of
  * money, or reaches MAX_HOUSES.
  * --------------------------------------------------------------------- */
-static void offer_build_houses(struct block* b, struct player* p)
+static void offer_build_houses(struct block* b,
+                               struct player* p)
 {
-    int  choice;
+    int choice;
     bool done;
 
     done = false;
@@ -128,9 +132,10 @@ static void offer_build_houses(struct block* b, struct player* p)
 }
 
 /* -----------------------------------------------------------------------
- * Part 4 – buy_property [15 pts]
+ * Part 4 - buy_property [15 pts]
  * --------------------------------------------------------------------- */
-void buy_property(struct block* current_block, struct player* current_player)
+void buy_property(struct block* current_block,
+                  struct player* current_player)
 {
     int choice;
 
@@ -195,18 +200,19 @@ void buy_property(struct block* current_block, struct player* current_player)
 }
 
 /* -----------------------------------------------------------------------
- * Part 5 – sell_property [15 pts]
+ * Part 5 - sell_property [15 pts]
  *
  * Refund = (property price + houses built * house_price) / SELL_REFUND_RATIO
  * --------------------------------------------------------------------- */
-void sell_property(struct block board[BOARD_SIZE], struct player* current_player)
+void sell_property(struct block board[BOARD_SIZE],
+                   struct player* current_player)
 {
-    int32_t       i;
-    int           count;
-    int           selection;
-    int           refund;
+    int32_t i;
+    int count;
+    int selection;
+    int refund;
     struct block* b;
-    bool          done;
+    bool done;
 
     done = false;
 

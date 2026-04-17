@@ -75,7 +75,7 @@ struct player
  */
 struct block
 {
-    int block_id;        /**< Board position index (0 – BOARD_SIZE-1). */
+    int block_id;        /**< Board position index (0 - BOARD_SIZE-1). */
     char *name;          /**< Label displayed on the square. */
     int price;           /**< Buy price / tax fee / turns-to-skip (see struct note). */
     int rent;            /**< Rent with 0 houses. */
@@ -83,7 +83,7 @@ struct block
     int rent_2;          /**< Rent with 2 houses. */
     int rent_3;          /**< Rent with 3 houses. */
     int house_price;     /**< Cost to build one house ($). */
-    int house_count;     /**< Houses currently built (0 – MAX_HOUSES). */
+    int house_count;     /**< Houses currently built (0 - MAX_HOUSES). */
     struct player owner; /**< Owning player; @c owner.type == @c noone means unowned. */
     block_type type;     /**< Functional category of this square. */
 };

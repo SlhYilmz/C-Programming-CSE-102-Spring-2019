@@ -1,6 +1,6 @@
 CC      = gcc
 CFLAGS  = -std=c99 -Wall -Wextra -Wpedantic -Wshadow -Wconversion \
-          -fno-common -I inc
+          -fno-common -I inc -finput-charset=UTF-8 -fexec-charset=UTF-8
 TARGET  = monopoly
 LIB_SRCS = src/board.c src/display.c src/property.c src/gameplay.c
 LIB_OBJS = $(LIB_SRCS:src/%.c=build/%.o)

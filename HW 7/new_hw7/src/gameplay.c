@@ -14,37 +14,37 @@
 /* -----------------------------------------------------------------------
  * Module-private constants
  * --------------------------------------------------------------------- */
-#define DICE_MIN       (1)
-#define DICE_MAX       (6)
-#define MENU_MIN       (1)
-#define MENU_MAX       (7)
-#define MENU_EXIT      (-1)
+#define DICE_MIN  (1)
+#define DICE_MAX  (6)
+#define MENU_MIN  (1)
+#define MENU_MAX  (7)
+#define MENU_EXIT (-1)
 
 /* Turn-state return values from do_turn() / handle_landing() */
-#define SOLVENT        (1)   /**< player is able to continue playing      */
-#define BANKRUPT       (0)   /**< player is out of money and properties   */
-#define QUIT_GAME      (-2)  /**< player chose to exit voluntarily        */
+#define SOLVENT   (1)  /**< player is able to continue playing      */
+#define BANKRUPT  (0)  /**< player is out of money and properties   */
+#define QUIT_GAME (-2) /**< player chose to exit voluntarily        */
 
 /* rolled-flag states used inside do_turn() */
-#define TURN_PENDING   (0)   /**< player has not yet rolled this turn     */
-#define TURN_DONE      (1)   /**< player has rolled; turn is complete     */
+#define TURN_PENDING (0) /**< player has not yet rolled this turn     */
+#define TURN_DONE    (1) /**< player has rolled; turn is complete     */
 
 /* game_over flag states used inside gameplay() */
-#define GAME_RUNNING   (0)   /**< game loop is still active               */
-#define GAME_ENDED     (1)   /**< game loop should terminate              */
+#define GAME_RUNNING (0) /**< game loop is still active               */
+#define GAME_ENDED   (1) /**< game loop should terminate              */
 
 /* binary user-prompt answer */
-#define CHOICE_YES     (1)   /**< user answered yes at a binary prompt    */
+#define CHOICE_YES (1) /**< user answered yes at a binary prompt    */
 
 /* property-search result flag */
-#define PROP_NOT_FOUND (0)   /**< search loop found no matching entry     */
-#define PROP_FOUND     (1)   /**< search loop found a matching entry      */
+#define PROP_NOT_FOUND (0) /**< search loop found no matching entry     */
+#define PROP_FOUND     (1) /**< search loop found a matching entry      */
 
 /* sentinel to exit a debt-repayment while-loop */
-#define NO_DEBT        (0)   /**< zero amount owed; terminates debt loop  */
+#define NO_DEBT (0) /**< zero amount owed; terminates debt loop  */
 
 /* -----------------------------------------------------------------------
- * Internal helper – roll a single die [DICE_MIN, DICE_MAX].
+ * Internal helper - roll a single die [DICE_MIN, DICE_MAX].
  * --------------------------------------------------------------------- */
 static int roll_dice(void)
 {
@@ -52,7 +52,7 @@ static int roll_dice(void)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – return the current rent owed on a block.
+ * Internal helper - return the current rent owed on a block.
  * --------------------------------------------------------------------- */
 static int current_rent(const struct block* b)
 {
@@ -78,12 +78,12 @@ static int current_rent(const struct block* b)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – count how many properties a player owns.
+ * Internal helper - count how many properties a player owns.
  * --------------------------------------------------------------------- */
 static int count_owned(const struct player* p)
 {
     int32_t i;
-    int     count = 0;
+    int count = 0;
 
     for (i = 0; i < (int32_t)MAX_OWNED_BLOCKS; i++)
     {
@@ -97,10 +97,11 @@ static int count_owned(const struct player* p)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – synchronise the owner field inside every board block
+ * Internal helper - synchronise the owner field inside every board block
  * owned by @p after any change to p->account / p->name etc.
  * --------------------------------------------------------------------- */
-static void sync_owner_fields(struct block board[BOARD_SIZE], const struct player* p)
+static void sync_owner_fields(struct block board[BOARD_SIZE],
+                              const struct player* p)
 {
     int32_t i;
     int32_t j;
@@ -121,12 +122,12 @@ static void sync_owner_fields(struct block board[BOARD_SIZE], const struct playe
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – show the per-turn action menu and return selection.
+ * Internal helper - show the per-turn action menu and return selection.
  * --------------------------------------------------------------------- */
 static int show_menu(const struct player* p)
 {
     char buf[32];
-    int  choice;
+    int choice;
 
     printf("\n--- %s's turn   Balance: %d$ ---\n", p->name, p->account);
     printf("  1 - Roll the dice\n");
@@ -162,15 +163,16 @@ static int show_menu(const struct player* p)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – print which properties the current player owns.
+ * Internal helper - print which properties the current player owns.
  * --------------------------------------------------------------------- */
-static void show_my_properties(const struct block board[BOARD_SIZE], const struct player* p)
+static void show_my_properties(const struct block board[BOARD_SIZE],
+                               const struct player* p)
 {
     int32_t i;
     int32_t j;
-    int     found;
+    int found;
 
-    found = 0;
+    found = PROP_NOT_FOUND;
     printf("\n%s's properties:\n", p->name);
 
     for (i = 0; i < (int32_t)MAX_OWNED_BLOCKS; i++)
@@ -182,30 +184,32 @@ static void show_my_properties(const struct block board[BOARD_SIZE], const struc
                 if (board[j].block_id == p->owned_block_ids[i])
                 {
                     printf("  [%2d] %-14s  houses: %d\n", board[j].block_id, board[j].name, board[j].house_count);
-                    found = 1;
+                    found = PROP_FOUND;
                 }
             }
         }
     }
 
-    if (found == 0)
+    if (found == PROP_NOT_FOUND)
     {
         printf("  (none)\n");
     }
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – handle the event of landing on a block.
+ * Internal helper - handle the event of landing on a block.
  * Returns 1 if the player is still solvent, 0 if bankrupt.
  * --------------------------------------------------------------------- */
-static int handle_landing(struct block board[BOARD_SIZE], struct player* current, struct player* other)
+static int handle_landing(struct block board[BOARD_SIZE],
+                          struct player* current,
+                          struct player* other)
 {
     struct block* b;
-    int           owed;
-    int           solvent;
-    int32_t       j;
+    int owed;
+    int solvent;
+    int32_t j;
 
-    solvent = 1;
+    solvent = SOLVENT;
     b = &board[current->current_block_id];
 
     switch (b->type)
@@ -232,7 +236,7 @@ static int handle_landing(struct block board[BOARD_SIZE], struct player* current
                     if (count_owned(current) == 0)
                     {
                         printf("%s cannot pay and has no properties to sell. BANKRUPT!\n", current->name);
-                        solvent = 0;
+                        solvent = BANKRUPT;
                         owed = 0; /* break out of while */
                     }
                     else
@@ -243,7 +247,7 @@ static int handle_landing(struct block board[BOARD_SIZE], struct player* current
                     }
                 }
 
-                if (solvent == 1)
+                if (solvent == SOLVENT)
                 {
                     current->account -= owed;
                     other->account += owed;
@@ -254,7 +258,7 @@ static int handle_landing(struct block board[BOARD_SIZE], struct player* current
             }
             else
             {
-                /* landed on own property – offer to build a house */
+                /* landed on own property - offer to build a house */
                 printf("\nYou landed on your own property: %s\n", b->name);
                 if (b->house_count < (int32_t)MAX_HOUSES)
                 {
@@ -268,14 +272,14 @@ static int handle_landing(struct block board[BOARD_SIZE], struct player* current
                         }
                         choice = 0;
                     }
-                    if ((choice == 1) && (current->account >= b->house_price))
+                    if ((choice == CHOICE_YES) && (current->account >= b->house_price))
                     {
                         current->account -= b->house_price;
                         b->house_count += 1;
                         sync_owner_fields(board, current);
                         printf("House built on %s. Balance: %d$\n", b->name, current->account);
                     }
-                    else if (choice == 1)
+                    else if (choice == CHOICE_YES)
                     {
                         printf("Not enough money to build a house.\n");
                     }
@@ -296,7 +300,7 @@ static int handle_landing(struct block board[BOARD_SIZE], struct player* current
                 if (count_owned(current) == 0)
                 {
                     printf("%s cannot pay tax and has no properties to sell. BANKRUPT!\n", current->name);
-                    solvent = 0;
+                    solvent = BANKRUPT;
                     owed = 0;
                 }
                 else
@@ -307,7 +311,7 @@ static int handle_landing(struct block board[BOARD_SIZE], struct player* current
                 }
             }
 
-            if (solvent == 1)
+            if (solvent == SOLVENT)
             {
                 current->account -= owed;
                 sync_owner_fields(board, current);
@@ -338,9 +342,10 @@ static int handle_landing(struct block board[BOARD_SIZE], struct player* current
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – move the player by @p steps and handle pass-Start.
+ * Internal helper - move the player by @p steps and handle pass-Start.
  * --------------------------------------------------------------------- */
-static void move_player(struct player* p, int steps)
+static void move_player(struct player* p,
+                        int steps)
 {
     int old_pos;
 
@@ -355,23 +360,25 @@ static void move_player(struct player* p, int steps)
 }
 
 /* -----------------------------------------------------------------------
- * Internal helper – execute the menu-driven part of one player's turn.
+ * Internal helper - execute the menu-driven part of one player's turn.
  * Returns 1 while the turn is still ongoing, 0 when the player has rolled.
  * Returns -1 if the player went bankrupt during a forced sale.
  * --------------------------------------------------------------------- */
-static int do_turn(struct block board[BOARD_SIZE], struct player* current, struct player* other)
+static int do_turn(struct block board[BOARD_SIZE],
+                   struct player* current,
+                   struct player* other)
 {
-    int           choice;
-    int           rolled;
-    int           dice;
-    int           solvent;
-    int32_t       j;
+    int choice;
+    int rolled;
+    int dice;
+    int solvent;
+    int32_t j;
     struct block* b;
 
-    rolled = 0;
-    solvent = 1;
+    rolled = TURN_PENDING;
+    solvent = SOLVENT;
 
-    while ((rolled == 0) && (solvent == 1))
+    while ((rolled == TURN_PENDING) && (solvent == SOLVENT))
     {
         choice = show_menu(current);
 
@@ -384,7 +391,7 @@ static int do_turn(struct block board[BOARD_SIZE], struct player* current, struc
                 printf("%s moved to [%d] %s\n", current->name, current->current_block_id, board[current->current_block_id].name);
 
                 solvent = handle_landing(board, current, other);
-                rolled = 1;
+                rolled = TURN_DONE;
                 break;
 
             case 2: /* Show account */
@@ -443,10 +450,10 @@ static int do_turn(struct block board[BOARD_SIZE], struct player* current, struc
             {
                 char confirm[16];
                 printf("Are you sure you want to quit? Type YES to confirm: ");
-                if (scanf("%15s", confirm) == 1 && strcmp(confirm, "YES") == 0)
+                if (scanf("%15s", confirm) == CHOICE_YES && strcmp(confirm, "YES") == 0)
                 {
                     printf("Quitting the game. Goodbye!\n");
-                    return -2;
+                    return QUIT_GAME;
                 }
                 printf("Quit cancelled.\n");
                 break;
@@ -458,18 +465,18 @@ static int do_turn(struct block board[BOARD_SIZE], struct player* current, struc
         }
 
         /* Check bankruptcy after any action that changes the balance */
-        if ((solvent == 1) && (current->account < 0))
+        if ((solvent == SOLVENT) && (current->account < 0))
         {
             if (count_owned(current) == 0)
             {
                 printf("%s is bankrupt!\n", current->name);
-                solvent = 0;
+                solvent = BANKRUPT;
             }
         }
     }
 
     /* Release all blocks belonging to a bankrupt player */
-    if (solvent == 0)
+    if (solvent == BANKRUPT)
     {
         for (j = 0; j < (int32_t)BOARD_SIZE; j++)
         {
@@ -485,34 +492,34 @@ static int do_turn(struct block board[BOARD_SIZE], struct player* current, struc
 }
 
 /* -----------------------------------------------------------------------
- * Part 6 – gameplay [40 pts]
+ * Part 6 - gameplay [40 pts]
  * --------------------------------------------------------------------- */
-void gameplay(struct block board[BOARD_SIZE], struct player player_one, struct player player_two)
+void gameplay(struct block board[BOARD_SIZE],
+              struct player player_one,
+              struct player player_two)
 {
     struct player* active;
     struct player* waiting;
     struct player* tmp;
-    int            game_over;
-    int            solvent;
+    int game_over;
+    int solvent;
 
     srand((unsigned int)time(NULL));
 
-    game_over = 0;
-    active  = &player_one;
+    game_over = GAME_RUNNING;
+    active = &player_one;
     waiting = &player_two;
 
     show_board(board, player_one, player_two);
 
-    while (game_over == 0)
+    while (game_over == GAME_RUNNING)
     {
         /* Skip turn if player is in a punishment wait */
         if (active->turn_to_wait > 0)
         {
-            printf("\n%s must wait %d more turn(s) and skips this turn.\n",
-                active->name,
-                active->turn_to_wait);
+            printf("\n%s must wait %d more turn(s) and skips this turn.\n", active->name, active->turn_to_wait);
             active->turn_to_wait -= 1;
-            solvent = 1;
+            solvent = SOLVENT;
         }
         else
         {
@@ -521,23 +528,21 @@ void gameplay(struct block board[BOARD_SIZE], struct player player_one, struct p
 
         show_board(board, player_one, player_two);
 
-        if (solvent == -2)
+        if (solvent == QUIT_GAME)
         {
             /* Voluntary quit */
-            game_over = 1;
+            game_over = GAME_ENDED;
         }
-        else if (solvent == 0)
+        else if (solvent == BANKRUPT)
         {
-            printf("\n=== %s is eliminated! %s wins! ===\n",
-                active->name,
-                waiting->name);
-            game_over = 1;
+            printf("\n=== %s is eliminated! %s wins! ===\n", active->name, waiting->name);
+            game_over = GAME_ENDED;
         }
         else
         {
             /* swap turns */
-            tmp     = active;
-            active  = waiting;
+            tmp = active;
+            active = waiting;
             waiting = tmp;
         }
     }

@@ -18,9 +18,12 @@
 #define NAME_BUF_SIZE (64)
 
 /* -----------------------------------------------------------------------
- * Internal helper – initialise a player with a name, token, and defaults.
+ * Internal helper - initialise a player with a name, token, and defaults.
  * --------------------------------------------------------------------- */
-static void init_player(struct player* p, player_type token, char* name_buf, const char* prompt)
+static void init_player(struct player* p,
+                        player_type token,
+                        char* name_buf,
+                        const char* prompt)
 {
     int32_t i;
 

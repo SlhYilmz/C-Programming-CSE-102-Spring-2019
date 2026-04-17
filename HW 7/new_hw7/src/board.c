@@ -10,7 +10,7 @@
 #include "../inc/board.h"
 
 /* -----------------------------------------------------------------------
- * Internal helper – constructs an empty (no-owner) player sentinel.
+ * Internal helper - constructs an empty (no-owner) player sentinel.
  * Not part of the public API.
  * --------------------------------------------------------------------- */
 static struct player make_no_owner(void)
@@ -33,7 +33,7 @@ static struct player make_no_owner(void)
 }
 
 /* -----------------------------------------------------------------------
- * Part 1 – Board Initialization [10 pts]
+ * Part 1 - Board Initialization [10 pts]
  *
  * For punish blocks, the turns-to-wait count is stored in `price`.
  * For tax blocks, the tax fee is stored in `price`.

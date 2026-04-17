@@ -12,8 +12,8 @@ IndentCaseLabels: true
 # --- Deterministic Formatting ---
 # BinPacking: Never/AlwaysOnePerLine ensures each parameter is on its own line.
 # This makes it easy to see which specific argument changed in a git diff.
-BinPackParameters: false
-BinPackArguments: false
+BinPackParameters: AlwaysOnePerLine
+BinPackArguments: true
 AlignAfterOpenBracket: AlwaysBreak
 
 # --- Structural Clarity ---
@@ -29,7 +29,7 @@ AllowShortLoopsOnASingleLine: false
 # when a single variable name or macro value is modified.
 AlignConsecutiveAssignments: false
 AlignConsecutiveBitFields: true
-AlignConsecutiveDeclarations: true
+AlignConsecutiveDeclarations: false
 AlignConsecutiveMacros: true
 
 # --- Language Idioms ---
